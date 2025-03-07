@@ -1,0 +1,22 @@
+<!-- templates/lastfm_login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LastFM Login</title>
+  <style>
+      body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+      .qr-code { margin: 20px; }
+  </style>
+</head>
+<body>
+  <h1>LastFM Login</h1>
+  <p>Scan the QR code below or open the URL to sign in to your LastFM account:</p>
+  <p><strong>{{ login_url }}</strong></p>
+  <div class="qr-code">
+    <img src="data:image/png;base64,{{ qr_code }}" alt="LastFM Login QR Code">
+  </div>
+  <p>Waiting for login...</p>
+  <p><a href="/lastfm/status">Check login status</a></p>
+</body>
+</html>
