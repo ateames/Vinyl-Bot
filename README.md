@@ -82,16 +82,52 @@ VinylBot/
   Contains HTML templates for the kiosk interface, WiFi setup, LastFM login, and current track display.
 
 ---
-
-## Docker Deployment
-
 ### Prerequisites
 
-- A Raspberry Pi with Docker installed.
+- A Raspberry Pi with [Docker installed](https://docs.docker.com/engine/install/debian/)
 - The Pi must be pre-configured to run in AP mode (using hostapd and dnsmasq) with the SSID `Vinyl-Bot`: [AP Mode Configuration](./AP_MODE_CONFIGURATION.md)
-- Access to a Pi‑compatible sound card (and proper device mapping in Docker).
+- Access to a Pi‑compatible sound card (and proper device mapping in Docker)
 - Chromium installed on the host if kiosk mode is required (note: kiosk browser launch is handled outside the container): [Kiosk Mode Configuration](./KIOSK_MODE_CONFIGURATION.md)
 - Credentials for services: API keys for LastFM and AcoustID, MusicBrainz User Agent.
+
+## AP Mode Configuration (Host Setup)
+
+Before running the Docker container, configure your Raspberry Pi to run in AP mode. Refer to the [AP Mode Configuration](./AP_MODE_CONFIGURATION.md) guide for details on installing and configuring `hostapd`, `dnsmasq`, setting a static IP, and enabling NAT. This setup is done on the Pi host, outside the Docker container.
+
+---
+
+## Installation & Setup
+
+1. **Clone the Repository:**
+
+   ```
+   git clone https://github.com/ateames/Vinyl-Bot.git
+   cd Vinyl-Bot
+   ```
+2. **AP Mode & Kiosk Interface:**
+   - Ensure your Raspberry Pi is running in AP mode. The device will broadcast the `Vinyl-Bot` SSID: [AP Mode Configuration](./AP_MODE_CONFIGURATION.md)
+   - The kiosk interface will open automatically (via Chromium on the host) and display instructions for WiFi setup and LastFM login: [Kiosk Mode Configuration](./KIOSK_MODE_CONFIGURATION.md)
+
+3. **Update Configuration:**
+Copy `example.config.py` and rename to `config.py`:
+```
+cp example.config.py config.py
+```
+
+Edit `config.py` with your LastFM, AcoustID API credentials and MusicBrainz user agent.
+```
+LASTFM_API_KEY = "YOUR_LASTFM_API_KEY"
+LASTFM_API_SECRET = "YOUR_LASTFM_API_SECRET"
+ACOUSTID_API_KEY = "YOUR_ACOUSTID_API_KEY"
+
+WIFI_SSID = "Vinyl-Bot"
+WIFI_SECURITY = "WPA"
+COUNTRY_CODE = "US"
+
+MUSICBRAINZ_USER_AGENT = ("Vinyl-Bot", "1.0", "contact@example.com")
+```
+
+## Docker Deployment
 
 ### Building the Docker Image
 
@@ -112,50 +148,12 @@ You may need to configure additional device mappings (or use `--privileged`) if 
 
 ---
 
-## AP Mode Configuration (Host Setup)
-
-Before running the Docker container, configure your Raspberry Pi to run in AP mode. Refer to the [AP Mode Configuration](./AP_MODE_CONFIGURATION.md) guide for details on installing and configuring `hostapd`, `dnsmasq`, setting a static IP, and enabling NAT. This setup is done on the Pi host, outside the Docker container.
-
----
-
-## Installation & Setup
-
-1. **Clone the Repository:**
-
-   ```
-   git clone https://github.com/ateames/Vinyl-Bot.git
-   cd Vinyl-Bot
-   ```
-
-2. **Update Configuration:**
-Copy `example.config.py` and rename to `config.py`:
-```
-cp example.config.py config.py
-```
-
-Edit `config.py` with your LastFM, AcoustID API credentials and MusicBrainz user agent.
-```
-LASTFM_API_KEY = "YOUR_LASTFM_API_KEY"
-LASTFM_API_SECRET = "YOUR_LASTFM_API_SECRET"
-ACOUSTID_API_KEY = "YOUR_ACOUSTID_API_KEY"
-
-WIFI_SSID = "Vinyl-Bot"
-WIFI_SECURITY = "WPA"
-COUNTRY_CODE = "US"
-
-MUSICBRAINZ_USER_AGENT = ("Vinyl-Bot", "1.0", "contact@example.com")
-```
-
 4. **Build & Run the Docker Container:**
 
    ```
    docker build -t vinyl-bot .
    docker run --rm --net=host --device /dev/snd vinyl-bot
    ```
-
-5. **AP Mode & Kiosk Interface:**
-   - Ensure your Raspberry Pi is running in AP mode. The device will broadcast the `Vinyl-Bot` SSID.
-   - The kiosk interface will open automatically (via Chromium on the host, if configured) and display instructions for WiFi setup and LastFM login.
 
 6. **Interacting with the Application:**
    - Use a mobile device to connect to the `Vinyl-Bot` WiFi.
