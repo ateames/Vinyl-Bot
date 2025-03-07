@@ -44,6 +44,8 @@ VinylBot/
 ├── audio.py
 ├── requirements.txt
 ├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore 
 └── templates/
     ├── index.html
     ├── wifi_setup.html
