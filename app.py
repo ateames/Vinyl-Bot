@@ -31,15 +31,16 @@ def index():
 @app.route("/current-track")
 def current_track():
     return render_template("current_track.html", metadata=current_track_metadata)
-
+```
 def open_kiosk_browser():
     time.sleep(2)
     try:
         subprocess.Popen(["chromium-browser", "--kiosk", "http://localhost:5000"])
     except Exception as e:
         print(f"Failed to open kiosk browser: {e}")
-
+```
 if __name__ == "__main__":
-    threading.Thread(target=open_kiosk_browser, daemon=True).start()
+    # Commenting out the kiosk browser launch so that the host manages Chromium
+    # threading.Thread(target=open_kiosk_browser, daemon=True).start()
     start_audio_capture(get_lastfm_session)
     app.run(host="0.0.0.0", port=5000)
