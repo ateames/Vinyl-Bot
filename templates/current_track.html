@@ -1,0 +1,24 @@
+<!-- templates/current_track.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Current Track Information</title>
+    <style>
+      body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+      img { max-width: 300px; }
+    </style>
+</head>
+<body>
+    <h1>Current Track Information</h1>
+    {% if metadata %}
+      <p><strong>Title:</strong> {{ metadata.title }}</p>
+      <p><strong>Artist:</strong> {{ metadata.artist }}</p>
+      <p><strong>Album:</strong> {{ metadata.album }}</p>
+      {% if metadata.album_art_url %}
+      <p><img src="{{ metadata.album_art_url }}" alt="Album Art"></p>
+      {% endif %}
+    {% else %}
+      <p>No track identified yet. Please wait while the system captures and identifies audio.</p>
+    {% endif %}
+</body>
+</html>
