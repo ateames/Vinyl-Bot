@@ -27,20 +27,28 @@ def record_audio(duration, filename):
 
     p = pyaudio.PyAudio()
 
-    # Attempt to find an input device with available input channels
+    # Attempt to find an input device with available input channels,
+    # preferring a device whose name contains "USB Audio".
     input_device_index = None
     device_count = p.get_device_count()
     for i in range(device_count):
         device_info = p.get_device_info_by_index(i)
         if device_info.get("maxInputChannels", 0) > 0:
-            input_device_index = i
-            break
+            # Check if the device name contains "USB Audio"
+            if "USB Audio" in device_info.get("name", ""):
+                input_device_index = i
+                print(f"Selected device '{device_info.get('name')}' at index {i} (preferred USB Audio).")
+                break
+            # Otherwise, select the first available device if none selected yet
+            if input_device_index is None:
+                input_device_index = i
+                print(f"Selected device '{device_info.get('name')}' at index {i} (fallback).")
 
     if input_device_index is None:
         p.terminate()
         raise Exception("No input device available for audio capture.")
 
-    # Open the stream with the specified input device index
+    # Open the stream with the selected input device index
     stream = p.open(format=FORMAT,
                     channels=CHANNELS,
                     rate=RATE,
@@ -52,7 +60,8 @@ def record_audio(duration, filename):
     # Calculate total frames needed for the given duration
     total_frames = int(RATE / CHUNK * duration)
     for _ in range(total_frames):
-        data = stream.read(CHUNK)
+        # Disable exception on overflow so we get whatever data is available
+        data = stream.read(CHUNK, exception_on_overflow=False)
         frames.append(data)
 
     stream.stop_stream()
