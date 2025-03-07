@@ -11,7 +11,6 @@ import acoustid
 import musicbrainzngs
 import pylast
 from config import ACOUSTID_API_KEY, LASTFM_API_KEY, LASTFM_API_SECRET
-from musicbrainzngs import musicbrainzngs
 
 # Set MusicBrainz user agent
 musicbrainzngs.set_useragent("Vinyl-Bot", "1.0", "contact@example.com")
