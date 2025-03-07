@@ -1,0 +1,28 @@
+<!-- templates/wifi_setup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WiFi Setup</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; }
+      .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>WiFi Setup</h1>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+    <form action="/configure-wifi" method="post">
+        <label for="ssid">Select WiFi Network:</label>
+        <select name="ssid" id="ssid">
+            {% for net in ssids %}
+              <option value="{{ net }}">{{ net }}</option>
+            {% endfor %}
+        </select><br><br>
+        <label for="password">Enter WiFi Password:</label>
+        <input type="password" name="password" id="password" required><br><br>
+        <button type="submit">Connect</button>
+    </form>
+</body>
+</html>
