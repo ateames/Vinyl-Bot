@@ -19,24 +19,47 @@ musicbrainzngs.set_useragent("Vinyl-Bot", "1.0", "contact@example.com")
 current_track_metadata = None
 last_scrobbled_track = None
 
-def record_audio(duration, filename):
+def record_audio(duration, filename):    
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 44100
 
     p = pyaudio.PyAudio()
-    stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE,
-                    input=True, frames_per_buffer=CHUNK)
+
+    # Attempt to find an input device with available input channels
+    input_device_index = None
+    device_count = p.get_device_count()
+    for i in range(device_count):
+        device_info = p.get_device_info_by_index(i)
+        if device_info.get("maxInputChannels", 0) > 0:
+            input_device_index = i
+            break
+
+    if input_device_index is None:
+        p.terminate()
+        raise Exception("No input device available for audio capture.")
+
+    # Open the stream with the specified input device index
+    stream = p.open(format=FORMAT,
+                    channels=CHANNELS,
+                    rate=RATE,
+                    input=True,
+                    frames_per_buffer=CHUNK,
+                    input_device_index=input_device_index)
     frames = []
+
+    # Calculate total frames needed for the given duration
     total_frames = int(RATE / CHUNK * duration)
     for _ in range(total_frames):
         data = stream.read(CHUNK)
         frames.append(data)
+
     stream.stop_stream()
     stream.close()
     p.terminate()
 
+    # Save the recorded data to a WAV file
     wf = wave.open(filename, 'wb')
     wf.setnchannels(CHANNELS)
     wf.setsampwidth(p.get_sample_size(FORMAT))
