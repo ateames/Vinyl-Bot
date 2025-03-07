@@ -10,48 +10,27 @@ Make sure Chromium is installed and up-to-date:
 sudo apt update
 sudo apt install -y chromium
 ```
-### 2. Create a Startup Script
 
-Create a script (for example, `/home/Vinyl-Bot/kiosk.sh`) that waits for the graphical environment to fully load and then launches Chromium.
+### 2. Make the script executable
 
-```
-nano /home/pi/kiosk.sh
-```
-
-Paste in the following code:
+Change the Make the `kiosk.sh` script executable on your Pi: 
 
 ```
-#!/bin/bash
-# Disable screensaver and power management
-xset s off         # Turn off the screensaver
-xset s noblank     # Prevent screen blanking
-xset -dpms         # Disable Display Power Management Signaling
-
-# Wait to ensure the graphical environment is ready
-sleep 10
-
-# Launch Chromium in kiosk mode pointing to Vinyl-Bot
-/usr/bin/chromium --noerrdialogs --disable-infobars --kiosk http://localhost:5000
-```
-*Tip:* The `sleep 10` command gives the system time to load the X session. Adjust the delay if necessary.
-
-Save the file and exit the editor. Then, make the script executable:
-
-```bash
 chmod +x /home/pi/Vinyl-Bot/kiosk.sh
 ```
+*NOTE:* Replace `pi` with your actual username if different.
 
 ### 3. Create a Systemd Service
 
-A systemd service will ensure the kiosk mode is launched automatically after the graphical environment is up. Create a service file:
+A systemd service will ensure the kiosk mode is launched automatically after the graphical environment is up. Create a service file on your Pi:
 
 ```
 sudo nano /etc/systemd/system/kiosk.service
 ```
 
-Paste in the following content and update the path to your `kiosk.sh` file:
+Paste in the following content:
 
-```ini
+```
 [Unit]
 Description=Chromium Kiosk Mode for Vinyl-Bot
 After=graphical.target
@@ -66,8 +45,8 @@ Restart=always
 WantedBy=graphical.target
 ```
 
-*Notes:*
-- Replace `pi` with your actual username if different.
+*NOTES:*
+- Replace `pi` in the `ExecStart=` path with your actual username if different.
 - The `Environment=DISPLAY=:0` line ensures the script uses the correct display.
 
 Save and exit.
@@ -92,13 +71,13 @@ sudo systemctl start hostapd
 
 You can check its status with:
 
-```bash
+```
 sudo systemctl status kiosk.service
 ```
 
 If you need to troubleshoot, view the logs with:
 
-```bash
+```
 sudo journalctl -u kiosk.service -f
 ```
 
@@ -108,7 +87,7 @@ sudo journalctl -u kiosk.service -f
 
 Reboot your Raspberry Pi to confirm that Chromium launches Vinyl-Bot automatically in kiosk mode:
 
-```bash
+```
 sudo reboot
 ```
 
