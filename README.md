@@ -88,9 +88,10 @@ VinylBot/
 ### Prerequisites
 
 - A Raspberry Pi with Docker installed.
-- The Pi must be pre-configured to run in AP mode (using hostapd and dnsmasq) with the SSID `Vinyl-Bot`.
+- The Pi must be pre-configured to run in AP mode (using hostapd and dnsmasq) with the SSID `Vinyl-Bot`: [AP Mode Configuration](./AP_MODE_CONFIGURATION.md)
 - Access to a Pi‑compatible sound card (and proper device mapping in Docker).
-- Chromium installed on the host if kiosk mode is required (note: kiosk browser launch is typically handled outside the container).
+- Chromium installed on the host if kiosk mode is required (note: kiosk browser launch is handled outside the container): [Kiosk Mode Configuration](./KIOSK_MODE_CONFIGURATION.md)
+- Credentials for services: API keys for LastFM and AcoustID, MusicBrainz User Agent.
 
 ### Building the Docker Image
 
