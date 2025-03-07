@@ -1,0 +1,19 @@
+<!-- templates/connection_status.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WiFi Connection Status</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    {% if success %}
+    <h1>Connected Successfully!</h1>
+    <p>The Raspberry Pi has connected to the WiFi network: <strong>{{ ssid }}</strong>.</p>
+    {% else %}
+    <h1>Connection Failed</h1>
+    <p>{{ message }}</p>
+    {% endif %}
+</body>
+</html>
