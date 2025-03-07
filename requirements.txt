@@ -1,0 +1,6 @@
+Flask
+pyaudio
+acoustid
+musicbrainzngs
+pylast
+qrcode
