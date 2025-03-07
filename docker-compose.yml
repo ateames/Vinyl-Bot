@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  vinyl-bot:
+    build: .
+    image: vinyl-bot:latest
+    container_name: vinyl-bot
+    network_mode: host
+    devices:
+      - "/dev/snd:/dev/snd"  # Map the audio device; adjust if necessary
+    restart: unless-stopped
+    # Uncomment the following line if additional privileges are required:
+    # privileged: true
