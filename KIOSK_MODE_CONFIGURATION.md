@@ -18,7 +18,7 @@ Change the Make the `kiosk.sh` script executable on your Pi:
 ```
 chmod +x /home/pi/Vinyl-Bot/kiosk.sh
 ```
-*NOTE:* Replace `pi` with your actual username if different.
+*NOTE:* Change the path and replace `pi` with your actual username if different.
 
 ### 3. Create a Systemd Service
 
@@ -46,7 +46,8 @@ WantedBy=graphical.target
 ```
 
 *NOTES:*
-- Replace `pi` in the `ExecStart=` path with your actual username if different.
+- Replace `pi` in `User=` with your actual username if different.
+- Replace `pi` in the `ExecStart=` path with your actual path and username if different.
 - The `Environment=DISPLAY=:0` line ensures the script uses the correct display.
 
 Save and exit.
