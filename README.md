@@ -124,7 +124,7 @@ Before running the Docker container, configure your Raspberry Pi to run in AP mo
 
    ```
    git clone https://github.com/ateames/Vinyl-Bot.git
-   cd VinylBot
+   cd Vinyl-Bot
    ```
 
 2. **Update Configuration:**
