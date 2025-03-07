@@ -1,6 +1,6 @@
 Flask
 pyaudio
-acoustid
+pyacoustid
 musicbrainzngs
 pylast
 qrcode
