@@ -1,0 +1,39 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vinyl-Bot Setup</title>
+  <style>
+      body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+      .qr-code { margin: 20px; }
+      .info-box { border: 1px solid #000; padding: 20px; display: inline-block; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Vinyl-Bot Setup</h1>
+  <div class="info-box">
+    <h2>Step 1: Connect to Vinyl-Bot</h2>
+    <p>Scan the QR code to connect to <strong>{{ ssid }}</strong> and complete the setup.</p>
+    <p><strong>SSID:</strong> {{ ssid }}<br>
+       <strong>Password:</strong> {{ password }}</p>
+    <div class="qr-code">
+        <img src="data:image/png;base64,{{ ap_qr }}" alt="AP QR Code">
+    </div>
+  </div>
+  <div class="info-box">
+    <h2>Step 2: Configure WiFi</h2>
+    <p>On your mobile device, open a web browser and navigate to:</p>
+    <p><strong>{{ setup_url }}</strong></p>
+    <p>Select your home/office WiFi network and enter its password.</p>
+  </div>
+  <div class="info-box">
+    <h2>Step 3: LastFM Login</h2>
+    <p>Scan the QR code below or open the URL to sign in to your LastFM account:</p>
+    <p><strong>http://{{ device_ip }}:5000/lastfm</strong></p>
+    <div class="qr-code">
+        <img src="data:image/png;base64,{{ lastfm_qr }}" alt="LastFM Login QR Code">
+    </div>
+  </div>
+</body>
+</html>
