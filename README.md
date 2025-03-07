@@ -33,8 +33,8 @@ Vinyl‑Bot is a Raspberry Pi application that captures audio from a turntable, 
 ---
 
 ## File Structure
-
 The project is organized as follows:
+```
 VinylBot/
 ├── app.py
 ├── config.py
@@ -51,7 +51,7 @@ VinylBot/
     ├── lastfm_login.html
     ├── lastfm_callback.html
     └── current_track.html
-
+```
 - **app.py:**  
   Initializes the Flask app, registers Blueprints for WiFi and LastFM, starts background threads for kiosk browser and audio capture/scrobbling, and runs the server.
 
