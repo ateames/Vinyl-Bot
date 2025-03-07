@@ -96,14 +96,14 @@ VinylBot/
 ### Building the Docker Image
 
 From the project root (`VinylBot/`), build the Docker image:
-```bash
+```
 docker build -t vinyl-bot .
 ```
 ### Running the Docker Container
 
 Run the container with host networking so that the Flask server is accessible on the Pi’s IP, and map the audio device for capturing audio (adjust `/dev/snd` as needed):
 
-```bash
+```
 docker run --rm --net=host --device /dev/snd vinyl-bot
 ```
 **Important:**  
@@ -122,26 +122,42 @@ Before running the Docker container, configure your Raspberry Pi to run in AP mo
 
 1. **Clone the Repository:**
 
-   ```bash
-   git clone https://github.com/yourusername/VinylBot.git
+   ```
+   git clone https://github.com/ateames/Vinyl-Bot.git
    cd VinylBot
    ```
 
 2. **Update Configuration:**
-   - Edit `config.py` with your LastFM and AcoustID API credentials.
+Copy `example.config.py` and rename to `config.py`:
+```
+cp example.config.py config.py
+```
 
-3. **Build & Run the Docker Container:**
+Edit `config.py` with your LastFM, AcoustID API credentials and MusicBrainz user agent.
+```
+LASTFM_API_KEY = "YOUR_LASTFM_API_KEY"
+LASTFM_API_SECRET = "YOUR_LASTFM_API_SECRET"
+ACOUSTID_API_KEY = "YOUR_ACOUSTID_API_KEY"
 
-   ```bash
+WIFI_SSID = "Vinyl-Bot"
+WIFI_SECURITY = "WPA"
+COUNTRY_CODE = "US"
+
+MUSICBRAINZ_USER_AGENT = ("Vinyl-Bot", "1.0", "contact@example.com")
+```
+
+4. **Build & Run the Docker Container:**
+
+   ```
    docker build -t vinyl-bot .
    docker run --rm --net=host --device /dev/snd vinyl-bot
    ```
 
-4. **AP Mode & Kiosk Interface:**
+5. **AP Mode & Kiosk Interface:**
    - Ensure your Raspberry Pi is running in AP mode. The device will broadcast the `Vinyl-Bot` SSID.
    - The kiosk interface will open automatically (via Chromium on the host, if configured) and display instructions for WiFi setup and LastFM login.
 
-5. **Interacting with the Application:**
+6. **Interacting with the Application:**
    - Use a mobile device to connect to the `Vinyl-Bot` WiFi.
    - Follow the on-screen instructions to configure your home/office WiFi and sign in to LastFM.
    - The application continuously captures audio, identifies tracks, displays current track metadata, and scrobbles new tracks to LastFM.
