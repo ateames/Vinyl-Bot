@@ -1,4 +1,3 @@
-```markdown
 # Vinyl‑Bot
 
 Vinyl‑Bot is a Raspberry Pi application that captures audio from a turntable, fingerprints the audio to identify the track (using MusicBrainz and AcoustID), displays track metadata (including album art), and automatically scrobbles the track to a user’s LastFM account. The application also provides a kiosk interface in AP mode for initial WiFi and LastFM configuration. This project is containerized with Docker for simplified deployment and reproducibility.
@@ -36,8 +35,6 @@ Vinyl‑Bot is a Raspberry Pi application that captures audio from a turntable, 
 ## File Structure
 
 The project is organized as follows:
-
-```
 VinylBot/
 ├── app.py
 ├── config.py
@@ -54,7 +51,6 @@ VinylBot/
     ├── lastfm_login.html
     ├── lastfm_callback.html
     └── current_track.html
-```
 
 - **app.py:**  
   Initializes the Flask app, registers Blueprints for WiFi and LastFM, starts background threads for kiosk browser and audio capture/scrobbling, and runs the server.
@@ -97,11 +93,9 @@ VinylBot/
 ### Building the Docker Image
 
 From the project root (`VinylBot/`), build the Docker image:
-
 ```bash
 docker build -t vinyl-bot .
 ```
-
 ### Running the Docker Container
 
 Run the container with host networking so that the Flask server is accessible on the Pi’s IP, and map the audio device for capturing audio (adjust `/dev/snd` as needed):
@@ -109,10 +103,9 @@ Run the container with host networking so that the Flask server is accessible on
 ```bash
 docker run --rm --net=host --device /dev/snd vinyl-bot
 ```
-
-> **Important:**  
-> Running in host network mode allows the container to share the host’s network interfaces, which is necessary for AP mode and for the application to bind to the correct IP (e.g., 192.168.4.1).  
-> You may need to configure additional device mappings (or use `--privileged`) if your audio device requires special permissions.
+**Important:**  
+Running in host network mode allows the container to share the host’s network interfaces, which is necessary for AP mode and for the application to bind to the correct IP (e.g., 192.168.4.1).  
+You may need to configure additional device mappings (or use `--privileged`) if your audio device requires special permissions.
 
 ---
 
@@ -171,4 +164,3 @@ Before running the Docker container, configure your Raspberry Pi to run in AP mo
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
